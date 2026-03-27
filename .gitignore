@@ -1,0 +1,44 @@
+# Built application files
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+build/
+.gradle/
+.cxx/
+*.build
+local.properties
+
+# IntelliJ
+*.iml
+.idea/
+*.ipr
+*.iws
+.DS_Store
+
+# Keystore files
+*.jks
+*.keystore
+
+# Gradle
+.gradle/
+gradle-app.setting
+
+# Android Studio Navigation editor temp files
+.navigation/
+
+# Crashlytics
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
