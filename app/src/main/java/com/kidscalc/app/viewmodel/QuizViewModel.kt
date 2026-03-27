@@ -1,8 +1,10 @@
 package com.kidscalc.app.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import com.kidscalc.app.data.QuizEngine
 import com.kidscalc.app.data.QuizQuestion
+import com.kidscalc.app.data.SoundManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,8 +20,9 @@ data class QuizUiState(
     val feedbackMessage: String = ""
 )
 
-class QuizViewModel : ViewModel() {
+class QuizViewModel(application: Application) : AndroidViewModel(application) {
     private val quizEngine = QuizEngine()
+    private val soundManager = SoundManager(application)
 
     private val _uiState = MutableStateFlow(QuizUiState())
     val uiState: StateFlow<QuizUiState> = _uiState.asStateFlow()
@@ -50,6 +53,11 @@ class QuizViewModel : ViewModel() {
         }
 
         val isCorrect = quizEngine.checkAnswer(currentQuestion, userAnswer)
+        if (isCorrect) {
+            soundManager.playCorrect()
+        } else {
+            soundManager.playIncorrect()
+        }
         val feedback = if (isCorrect) {
             "太棒了！🎉"
         } else {
@@ -80,5 +88,10 @@ class QuizViewModel : ViewModel() {
 
     fun restartQuiz() {
         startQuiz()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        soundManager.release()
     }
 }
